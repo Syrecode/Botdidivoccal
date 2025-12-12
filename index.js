@@ -14,6 +14,7 @@ import {
   PermissionFlagsBits
 } from 'discord.js';
 import dotenv from 'dotenv';
+import http from 'http';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ const CONFIG = {
   token: process.env.DISCORD_TOKEN,
   clientId: process.env.CLIENT_ID,
   guildId: process.env.GUILD_ID,
+  port: process.env.PORT || 3000,
   channels: {
     info: process.env.INFO_CHANNEL_ID,
     vocal: process.env.VOCAL_CHANNEL_ID
@@ -368,6 +370,29 @@ client.on('error', error => {
 
 process.on('unhandledRejection', error => {
   console.error('❌ Unhandled promise rejection:', error);
+});
+
+// Serveur HTTP pour fly.io health checks
+const server = http.createServer((req, res) => {
+  if (req.url === '/health' || req.url === '/') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      status: 'ok',
+      bot: client.user ? client.user.tag : 'connecting...',
+      uptime: process.uptime(),
+      session: {
+        active: activeSession.isActive,
+        members: activeSession.authorizedMembers.size
+      }
+    }));
+  } else {
+    res.writeHead(404);
+    res.end('Not found');
+  }
+});
+
+server.listen(CONFIG.port, () => {
+  console.log(`🌐 Serveur HTTP démarré sur le port ${CONFIG.port}`);
 });
 
 // Connexion du bot
