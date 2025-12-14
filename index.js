@@ -33,7 +33,7 @@ const CONFIG = {
     vocalAccess: process.env.VOCAL_ACCESS_ROLE_ID,
     streamer: process.env.STREAMER_ROLE_ID
   },
-  sessionDuration: 6 * 60 * 60 * 1000 // 6 heures en millisecondes
+  sessionDuration: 8 * 60 * 60 * 1000 // 6 heures en millisecondes
 };
 
 // État de la session
@@ -94,16 +94,16 @@ function createSessionEmbed() {
   return new EmbedBuilder()
     .setColor('#00FFFF')
     .setTitle('🎯 SESSION VOCALE ACTIVE')
-    .setDescription('```ansi\n[2;36m╔════════════════════════════════════╗[0m\n[2;36m║[0m  ACCÈS VOCAL TEMPORAIRE ACTIVÉ    [2;36m║[0m\n[2;36m╚════════════════════════════════════╝[0m\n```')
+    .setDescription('ACCÈS VOCAL TEMPORAIRE ACTIVÉ')
     .addFields(
       {
         name: '🔐 Conditions d\'accès',
-        value: '> Rôle **Confiance** requis\n> Phrase secrète correcte\n> Cliquez sur le bouton ci-dessous',
+        value: '> Rôle **Vocal Live** requis\n> Phrase secrète correcte\n> Cliquez sur le bouton ci-dessous',
         inline: false
       },
       {
         name: '⏱️ Durée',
-        value: '> **6 heures** d\'accès\n> Expiration automatique',
+        value: '> **8 heures** d\'accès\n> Expiration automatique',
         inline: true
       },
       {
@@ -113,7 +113,7 @@ function createSessionEmbed() {
       }
     )
     .setFooter({ 
-      text: '🌟 Vocal Access System v1.0 | Tactical Interface 2955',
+      text: '🌟 Vocal Access System v1.0 ',
       iconURL: 'https://i.imgur.com/AfFp7pu.png'
     })
     .setTimestamp();
